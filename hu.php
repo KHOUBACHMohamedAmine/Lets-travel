@@ -1,3 +1,21 @@
+<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "travel";
+
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+die("Connection failed: " . $conn->connect_error);
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,25 +34,25 @@
 
     <a href="#" type="" class="logo"><i class="fas fa-plane tiara"></i><span>T</span>ravel<a/>
 
-    <nav class="navbar">
-        <a href="#home">Acceuil</a>
-        <a href="#book">réserver</a>
-        <a href="#packages">packs</a>
-        <a href="#services">services</a>
-        <a href="#gallery">galerie</a>
-        <a href="#review">commentaires</a>
-        <a href="#contact">contactez nous</a>
-    </nav>
+        <nav class="navbar">
+            <a href="#home">Acceuil</a>
+            <a href="#book">réserver</a>
+            <a href="#packages">packs</a>
+            <a href="#services">services</a>
+            <a href="#gallery">galerie</a>
+            <a href="#review">commentaires</a>
+            <a href="#contact">contactez nous</a>
+        </nav>
 
-    <div class="icons">
-        <i class="fas fa-search" id="search-btn"></i>
-        <i class="fas fa-user" id="login-btn"></i>
-    </div>
+        <div class="icons">
+            <i class="fas fa-search" id="search-btn"></i>
+            <i class="fas fa-user" id="login-btn"></i>
+        </div>
 
-    <form action="" class="search-bar-container">
-        <input type="search" id="search-bar" placeholder="chercher...">
-        <label for="search-bar" class="fas fa-search"></label>
-    </form>
+        <form action="" class="search-bar-container">
+            <input type="search" id="search-bar" placeholder="chercher...">
+            <label for="search-bar" class="fas fa-search"></label>
+        </form>
 
 </header>
 
@@ -43,11 +61,11 @@
 
     <i class="fas fa-times" id="form-close"></i>
 
-    <form action="">
+    <form action="#" method="post">
         <h3>connection</h3>
-        <input type="email" class="box" placeholder="votre email">
-        <input type="password" class="box" placeholder="votre mot de passe">
-        <input type="submit" value="se connecter" class="btn">
+        <input type="email" name="email" class="box" placeholder="votre email">
+        <input type="password" name="password" class="box" placeholder="votre mot de passe">
+        <button type="submit" name="submit"  class="btn">se connecter</button>
         <input type="checkbox" id="remember">
         <label for="remember">rester connecter</label>
         <p>mot de passe oublié ?<a href="#">cliquer ici !</a></p>
@@ -55,6 +73,48 @@
     </form>
 
 </div>
+<?php
+    if(isset($_POST['submit']))
+    {
+
+        $sql = "SELECT email,password FROM user";
+        $find = 0 ;
+        if($result = mysqli_query($conn, $sql)){
+            if(mysqli_num_rows($result) > 0){
+
+while($row = mysqli_fetch_array($result)){
+if($row['email']==$_POST['email'] && $row['password']==$_POST['password']){
+$find =  1;
+//success
+echo "<script>alert(\"Login success\")</script>";
+break;
+}
+
+
+// echo "email : " .$row['email']. " | password : ".$row['password'];
+
+
+}
+if($find==0){
+//failed
+echo "<script>alert(\"Login failed\")</script>";
+}
+// Free result set
+mysqli_free_result($result);
+} else{
+echo "No records matching your query were found.";
+}
+} else{
+echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+}
+
+
+// Close connection
+mysqli_close($conn);
+
+}
+?>
+
 
 <!-- home section starts  -->
 
@@ -470,7 +530,7 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
-                     </div>
+                    </div>
                 </div>
             </div>
 
@@ -530,7 +590,7 @@
 
 <!-- brand section  -->
 <section class="brand-container">
-<h1>nos sponsors :</h1>
+    <h1>nos sponsors :</h1>
     <div class="swiper-container brand-slider">
         <div class="swiper-wrapper">
             <div class="swiper-slide"><img src="images/1.jpg" alt=""></div>
