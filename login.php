@@ -2,49 +2,77 @@
 include "config.php";
 $Err ='';
 $Errlogin ='';
-$ErrDataBase ='';
+$ErrClass ='';
 $success ='';
+$SuccessClass = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-if (isset($_POST["login"])) {
-    $username =htmlentities($_POST['username']);
-    $password = $_POST['password'];
-    $hashedPass = sha1($password);
+    if (isset($_POST["login"])) {
+        $username =htmlentities($_POST['username']);
+        $password = $_POST['password'];
+        $hashedPass = sha1($password);
 
-    //Check If The User Exists In Database
-    $query = "SELECT id, username, password 
+        //Check If The User Exists In Database
+        $query = "SELECT id, username, password 
 					FROM user 
 					WHERE username = ? 
 					AND password = ?";
-    $stmt  = $connexion -> prepare($query);
-    $stmt -> execute(array($username,$hashedPass));
-    $count = $stmt -> rowCount();
+        $stmt  = $connexion -> prepare($query);
+$stmt -> execute(array($username,$hashedPass));
+$count = $stmt -> rowCount();
 
-    // If count > 0 This Mean The Database Contain Record About This UserName
+// If count > 0 This Mean The Database Contain Record About This UserName
 
-    if ($count == 1) {
-        $_SESSION['username'] = $username; // Register Session Name
-        $_SESSION['id'] = $count['id'];
-        header('Location:hu.php'); //Redirect To Home Page
+if ($count == 1) {
+$_SESSION['username'] = $username; // Register Session Name
 
-    }else {
-        $Errlogin .= 'ERROR! <br>';
-        $Errlogin .= 'If You D\'ont Have An Account Please Sign Up !!';
-    }
+$SuccessClass = 'success';
+$success = 'Logged in successfully';
+$ErrClass = '';
+
+header('refresh:5;url=hu.php'); //Redirect To Home Page
+}else {
+$Errlogin .= 'Username and password incorrect!!';
+$ErrClass = 'error';
+$SuccessClass = '';
+}
 }}
 ?>
-   <i class="fas fa-times" id="form-close"></i>
 
-    <form action="" method="POST">
-        <h3>login</h3>
-        <input type="text" name="username" class="box" placeholder="enter your username">
-        <input type="password" name="password" class="box" placeholder="enter your password">
-        <input type="submit" name= "login" value="login now" class="btn">
-        <span style='color:red;'><?= $Errlogin;?></span>
-        <span class ='text-center' style='color:red;'><?= $Err;?></span>
-        <span class ='text-center' style='color:red;'><?= $ErrDataBase;?></span>
-        <span class ='text-center' style='color:darkred;'><?= $success;?></span>
-        <input type="checkbox" id="remember">
-        <label for="remember">remember me</label>
-        <p>forget password? <a href="#">click here</a></p>
-        <p>don't have an account? <a href="register.php">register now</a></p>
-    </form>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="loginstyle.css">
+    <title>Login Form</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+</head>
+<body>
+    <header>
+        <video src="images/vid-1.mp4" autoplay muted loop></video>
+        <form action="<?=$_SERVER['PHP_SELF']?>"  method="POST">
+        <div class="card">
+            <h3>Login</h3>
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <label >Username</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <label >Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <button name="login" class="btn" type="submit">Login</button>
+            <span class='<?= $ErrClass?>'><?= $Errlogin;?></span>
+            <span class ='<?= $SuccessClass?>'><?= $success;?></span>
+            <a href="signup.php">Don't have an account? <span class="underlined">Sign Up</span></a>
+        </div>
+        </form>
+    </header>
+</body>
+</html>

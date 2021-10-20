@@ -12,7 +12,7 @@ window.onscroll = () =>{
     searchBar.classList.remove('active');
     menu.classList.remove('fa-times');
     navbar.classList.remove('active');
-    loginForm.classList.remove('active');
+  //  loginForm.classList.remove('active');
 }
 
 menu.addEventListener('click', () =>{
@@ -25,13 +25,13 @@ searchBtn.addEventListener('click', () =>{
     searchBar.classList.toggle('active');
 });
 
-formBtn.addEventListener('click', () =>{
-    loginForm.classList.add('active');
-});
-
-formClose.addEventListener('click', () =>{
-    loginForm.classList.remove('active');
-});
+// formBtn.addEventListener('click', () =>{
+//     loginForm.classList.add('active');
+// });
+//
+// formClose.addEventListener('click', () =>{
+//     loginForm.classList.remove('active');
+// });
 
 videoBtn.forEach(btn =>{
     btn.addEventListener('click', ()=>{
