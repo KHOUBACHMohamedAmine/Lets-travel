@@ -1,6 +1,6 @@
 <?php
 include "config.php";
-$Err ='';
+
 $Errlogin ='';
 $ErrClass ='';
 $success ='';
@@ -29,7 +29,7 @@ $SuccessClass = 'success';
 $success = 'Logged in successfully';
 $ErrClass = '';
 
-header('refresh:5;url=hu.php'); //Redirect To Home Page
+header('refresh:3;url=hu.php'); //Redirect To Home Page
 }else {
 $Errlogin .= 'Username and password incorrect!!';
 $ErrClass = 'error';

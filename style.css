@@ -452,7 +452,7 @@ header .search-bar-container label:hover{
     text-align: center;
     background:rgba(0,0,0,.7);
     padding:2rem;
-    padding-top: 5rem;
+    padding-top:5rem;
 }
 
 .gallery .box-container .box:hover .content{
@@ -671,8 +671,8 @@ header .search-bar-container label:hover{
     }
 
 }
-#fas fa-plane:hover{
-    transform: rotateY(360deg);
+.tiara:hover{
+    transform: rotateX(360deg);
 
 }
 

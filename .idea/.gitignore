@@ -3,6 +3,7 @@
 /workspace.xml
 # Datasource local storage ignored files
 /../../../../../:\wamp64\www\travelWebSite\.idea/dataSources/
+/dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/

@@ -1,29 +1,10 @@
 
 <?php
 include 'config.php';
-//if (isset($_POST['submit'])) {
-//    $username = $_POST['username'];
-//    $email = $_POST['email'];
-//    $password = sha1($_POST['password']);
-//    $cPassword = sha1($_POST['cPassword']);
-//
-//    if ($password == $cPassword) {
-//        $sql = "insert into user (username, email, password) VALUES ('$username,$email,$password')";
-//        $result = mysqli_query($conn, $sql);
-//        if ($result) {
-//            echo "<script> alert('Woow! User registration successful.') </script>";
-//        }else {
-//            echo "<script> alert('Woops !! Something went wrong !') </script>";
-//        }
-//
-//    } else {
-//        echo "<script> alert('Password Not matched.') </script>";
-//    }
-//}
-$Err ='';
-$Errlogin ='';
-$ErrDataBase ='';
+$ErrLogin ='';
+$ErrClass ='';
 $success ='';
+$SuccessClass = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 if(isset($_POST["signup"])){
 
@@ -41,38 +22,44 @@ if ($cPassword == $password ){
 
 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 //Check If The User Exists In Database
-$query = "SELECT username, password, email FROM user WHERE username = ? AND password = ? AND email = ?";
-$stmt  = $connexion -> prepare($query);
-$stmt -> execute(array($username,$password,$email));
-$count = $stmt -> rowCount();
+    $query = "SELECT username, password, email FROM user WHERE username = ? AND password = ? AND email = ?";
+    $stmt  = $connexion -> prepare($query);
+    $stmt -> execute(array($username,$password,$email));
+    $count = $stmt -> rowCount();
 
 // If count > 0 This Mean The Database Contain Record About This UserName
 
 if ($count == 1) {
-$ErrDataBase ="Username or email Already Exists In Database \n";
+    $ErrLogin ="Username or email Already Exists In Database \n";
+    $ErrClass ='error';
 
 }else {
-$sql = "INSERT INTO user (username, password, email) VALUES (?,?,?)";
-$stmt= $connexion->prepare($sql);
-$stmt->execute(array($username, $password, $email));
+    $sql = "INSERT INTO user (username, password, email) VALUES (?,?,?)";
+    $stmt= $connexion->prepare($sql);
+    $stmt->execute(array($username, $password, $email));
 
-$success ="Thanks For Signin Up \n";
-$success.=" You Can Login Now ";
+    $success ="Thanks For Joing Us \n";
+    $success.=" You Can Login Now ";
+    $ErrClass ='';
+    $SuccessClass ='success';
 }
 
 }else {
-$Err .= "Invalid Email Format";
-
+    $ErrLogin = "Invalid Email Format";
+    $ErrClass ='error';
+    $SuccessClass ='';
 }
 }else {
-$Err .= "Password do not match";
-
+    $ErrLogin = "Password do not match";
+    $ErrClass ='error';
+    $SuccessClass ='';
 }
 
 
 }else {
-$Err .= "All Fields Are Required";
-
+    $ErrLogin = "All Fields Are Required";
+    $ErrClass ='error';
+    $SuccessClass ='';
 }
 
 }
@@ -117,11 +104,9 @@ $Err .= "All Fields Are Required";
                 <input type="password" name="cPassword" required>
             </div>
             <button class="btn" type="submit" name="signup">Sign Up</button>
-            <span style='color:red;'><?= $Errlogin;?></span>
-            <span class ='text-center' style='color:red;'><?= $Err;?></span>
-            <span class ='text-center' style='color:red;'><?= $ErrDataBase;?></span>
-            <span class ='text-center' style='color:darkred;'><?= $success;?></span>
-            <a href="login.php">Already have an account? Login</a>
+            <span class='<?= $ErrClass?>'><?= $ErrLogin;?></span>
+            <span class ='<?= $SuccessClass?>'><?= $success;?></span>
+            <a href="login.php">Already have an account? <span class="underlined">login</span></a>
         </div>
         </form>
     </header>
