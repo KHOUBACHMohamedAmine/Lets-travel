@@ -1,4 +1,6 @@
-
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Let's travel web site</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -27,21 +30,33 @@
         <a href="#book">Réserver</a>
         <a href="#packages">packs</a>
         <a href="#services">services</a>
-        <a href="#gallery">gallerie</a>
+        <a href="#gallery">galerie</a>
         <a href="#review">commentaires</a>
         <a href="#contact">contacter-nous</a>
     </nav>
 
     <div class="icons">
         <i class="fas fa-search" id="search-btn"></i>
-        <a href="login.php"><i class="fas fa-user" id="login-btn"></i></a>
     </div>
 
     <form action="" class="search-bar-container">
         <input type="search" id="search-bar" placeholder="search here...">
         <label for="search-bar" class="fas fa-search"></label>
     </form>
+    <div class="dropdown show">
+      <a class="icons" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-user" id="login-btn"></i>
+      </a>
 
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <?php if (isset($_SESSION['id'])){ ?>
+        <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt"></i> Sign out </a>
+      <?php }else { ?>
+        <a class="dropdown-item" href="login.php"><i class="fas fa-sign-in-alt"></i> Sign in </a>
+        <a class="dropdown-item" href="signup.php"><i class="fa fa-user-plus" ></i> Sign up </a>
+      <?php } ?>
+      </div>
+    </div>
 </header>
 
 <!-- header section ends -->
@@ -105,22 +120,22 @@
             <img src="images/book-img.svg" alt="">
         </div>
 
-        <form action="">
+        <form action="reservation.php" method="post">
             <div class="inputBox">
                 <h3>départ</h3>
-                <input type="text" placeholder="provenance">
+                <input type="text" name="localistion_depart" placeholder="provenance">
             </div>
             <div class="inputBox">
                 <h3>nombre</h3>
-                <input type="number" placeholder="nombre de personnes adultes">
+                <input type="number" name="nombre_personnes" placeholder="nombre de personnes adultes">
             </div>
             <div class="inputBox">
                 <h3>arrivée</h3>
-                <input type="date">
+                <input type="date" name="arrivee">
             </div>
             <div class="inputBox">
                 <h3>départ</h3>
-                <input type="date">
+                <input type="date" name="departure">
             </div>
             <input type="submit" class="btn" value="réserver">
         </form>
@@ -254,7 +269,7 @@
                     <i class="far fa-star"></i>
                 </div>
                 <div class="price"> $90.00 <span>$120.00</span> </div>
-                <a href="#" class="btn">book now</a>
+                <a href="#" class="btn">réserver maintenant</a>
             </div>
         </div>
 
@@ -531,16 +546,16 @@
             <img src="images/contact-img.svg" alt="">
         </div>
 
-        <form action="">
+        <form action="commentaire.php" method="POST">
             <div class="inputBox">
-                <input type="text" placeholder="nom">
-                <input type="email" placeholder="email">
+                <input type="text" name="nom" placeholder="nom">
+                <input type="email" name="email" placeholder="email">
             </div>
             <div class="inputBox">
-                <input type="number" placeholder="numéro de tel">
-                <input type="text" placeholder="sujet">
+                <input type="number" name="tel" placeholder="numéro de tel">
+                <input type="text" name="sujet" placeholder="sujet">
             </div>
-            <textarea placeholder="message" name="" id="" cols="30" rows="10"></textarea>
+            <textarea name="message" placeholder="message" id="" cols="30" rows="10"></textarea>
             <input type="submit" class="btn" value="envoyer">
         </form>
 
@@ -608,6 +623,9 @@
 </section>
 
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <!-- custom js file link  -->
 <script src="scripts.js"></script>

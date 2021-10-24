@@ -1,5 +1,8 @@
 <?php
+
+session_start();
 include "config.php";
+
 
 $Errlogin ='';
 $ErrClass ='';
@@ -12,30 +15,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $hashedPass = sha1($password);
 
         //Check If The User Exists In Database
-        $query = "SELECT id, username, password 
-					FROM user 
-					WHERE username = ? 
-					AND password = ?";
-        $stmt  = $connexion -> prepare($query);
-$stmt -> execute(array($username,$hashedPass));
-$count = $stmt -> rowCount();
+        $sql = "SELECT id, username, password FROM user
+            WHERE username = '".$username."' AND password = '".$hashedPass."'";
 
-// If count > 0 This Mean The Database Contain Record About This UserName
+        $result = $connexion->query($sql);
 
-if ($count == 1) {
-$_SESSION['username'] = $username; // Register Session Name
+        // If count > 0 This Mean The Database Contain Record About This UserName
+        if ($result->rowCount() == 1 && $row = $result->fetch(PDO::FETCH_ASSOC)) {
 
-$SuccessClass = 'success';
-$success = 'Logged in successfully';
-$ErrClass = '';
+          $_SESSION['id'] = $row["id"]; // Register Session Name
+          $SuccessClass = 'success';
+          $success = 'Logged in successfully';
+          $ErrClass = '';
 
-header('refresh:3;url=hu.php'); //Redirect To Home Page
-}else {
-$Errlogin .= 'Username and password incorrect!!';
-$ErrClass = 'error';
-$SuccessClass = '';
+          header('refresh:3;url=hu.php'); //Redirect To Home Page
+        }else {
+          $Errlogin .= 'Username and password incorrect!!';
+          $ErrClass = 'error';
+          $SuccessClass = '';
+        }
+
+
+
+
+
+    }
 }
-}}
 ?>
 
 
