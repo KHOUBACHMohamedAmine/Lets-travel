@@ -137,7 +137,7 @@
                 <h3>départ</h3>
                 <input type="date" name="departure">
             </div>
-            <input type="submit" class="btn" value="réserver">
+            <input type="submit" class="btn" name="reservation" value="réserver">
         </form>
 
     </div>
