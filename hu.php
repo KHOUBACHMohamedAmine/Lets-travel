@@ -568,7 +568,7 @@
 <!-- brand section  -->
 <section class="brand-container">
 
-    <h1>nos sponseurs :</h1>
+    <h1>sponsors :</h1>
     <div class="swiper-container brand-slider">
         <div class="swiper-wrapper">
             <div class="swiper-slide"><img src="images/1.jpg" alt=""></div>
